@@ -28,23 +28,30 @@ while (camera.isOpened()):
 		cv2.imshow('edges', edges)
 		lines = cv2.HoughLines(edges,1,np.pi/180,20)
 		if lines is not None:
-			#go through for lop and find thetas then average them out
+			#go through for loop and find thetas then average them out
 			numoflines = 3
 			totheta = 0
-
 			for count, line in enumerate(lines):
 				if count > numoflines:
 					break
 
 				for rho,theta in line:
-					totheta += theta 
-			totheta2 = 0
+					totheta += theta
+			avgtheta = totheta / max(numoflines, count)
 			lc = 0
-			ang90 = theta-.15np.pi
+			totheta2 = 0
+			ang90 = avgtheta + np.pi/2
+			tol = 15 * (np.pi / 180)
 			for count, line in enumerate(lines):
 				for rho,theta in line:
-					
-			
+					if abs(theta - ang90) < tol:
+						totheta2 += theta
+						lc += 1
+			print(theta)
+			if lc != 0:
+				avgtheta2 = totheta2/lc
+				print(f"Theta 1: {avgtheta * (180 / np.pi)}")
+				print(f"Theta 2: {avgtheta2 * (180 / np.pi)}")
 			for count, line in enumerate(lines):
 				if count > 10:
 					break
