@@ -10,6 +10,14 @@ cv2.namedWindow("trackbars")
 cv2.createTrackbar("blursize", "trackbars", 1, 10, nothing)
 cv2.createTrackbar("canny", "trackbars", 0, 1, nothing)
 
+m1 = -(cos(theta1)/sin(theta1))
+m2 = -(cos(theta2)/sin(theta2))
+b1 = r1/sin(theta1)
+b2 = r2/sin(theta2)
+
+x = ((b2-b1)/(m1-m2))
+y = ((m1*(b2-b1))/(m1-m2))+b1
+
 camera = cv2.VideoCapture(sys.argv[1])
 while (camera.isOpened()):
 	(grabbed, frame) = camera.read()
@@ -66,7 +74,8 @@ while (camera.isOpened()):
 					x2 = int(x0 - 1000*(-b))
 					y2 = int(y0 - 1000*(a))
 					cv2.line(frame,(x1,y1),(x2,y2),(0,0,255),2)
-		
+		corner1 = (line1 == line2)
+		corner2 = (line3 == line2)
 		cv2.imshow('image', frame)
 
 		if cv2.waitKey(25) & 0xFF == ord('q'):
