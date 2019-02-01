@@ -42,7 +42,9 @@ while (camera.isOpened()):
 				for rho,theta in line:
 					totheta += theta
 					torho1 += rho
-			avgtheta = totheta / max(numoflines, count)
+					print("Rho:", rho)
+			print("Total Rho1: ", torho1)
+			avgtheta = totheta / min(numoflines, count)
 			lc = 0
 			totheta2 = 0
 			torho2 = 0
@@ -55,7 +57,7 @@ while (camera.isOpened()):
 						torho2 += rho
 						lc += 1
 			if lc != 0:
-				avgrho1 = torho1/lc
+				avgrho1 = torho1/min(numoflines, count)
 				avgrho2 = torho2/lc
 				avgtheta2 = totheta2/lc
 				m1 = -(math.cos(avgtheta)/math.sin(avgtheta))
@@ -65,8 +67,14 @@ while (camera.isOpened()):
 
 				x = ((b2-b1)/(m1-m2))
 				y = ((m1*(b2-b1))/(m1-m2))+b1
-
-				print(avgrho1, avgrho2, avgtheta, avgtheta2)
+				print("b1:", b1)
+				print("x:", x)
+				print("y:", y)
+				print("avgrho1:", avgrho1)
+				print("avgrho2:", avgrho2)
+				print("avgtheta:", avgtheta*(180/np.pi))
+				print("avgtheta2:", avgtheta2*(180/np.pi))
+				cv2.circle(frame, (int(x), int(y)), 5, (0, 255, 0))
 			for count, line in enumerate(lines):
 				if count > 10:
 					break
