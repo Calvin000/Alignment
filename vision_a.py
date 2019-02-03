@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import math
 import sys
+from sklearn.cluster import DBSCAN
 from time import sleep
 from matplotlib import pyplot as plt
 
@@ -43,6 +44,17 @@ while (camera.isOpened()):
 					totheta += theta
 					torho1 += rho
 					print("Rho:", rho)
+
+			rho_list = []
+			theta_list = []
+			for line in lines:
+				for rho, theta in line:
+					rho_list.append(rho)
+					theta_list.append(theta)
+			scatter = plt.scatter(rho_list, theta_list)
+			plt.pause(.01)
+			scatter.remove()
+
 			print("Total Rho1: ", torho1)
 			avgtheta = totheta / min(numoflines, count)
 			lc = 0
